@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, String, Text, UniqueConstraint
+from sqlalchemy import BigInteger, DateTime, ForeignKey, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -10,7 +10,7 @@ class User(Base):
     __tablename__ = "users"
 
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    telegram_user_id: Mapped[int] = mapped_column(unique=True, index=True)
+    telegram_user_id: Mapped[int] = mapped_column(BigInteger, unique=True, index=True)
     username: Mapped[str | None] = mapped_column(String(255), nullable=True)
     first_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
@@ -46,4 +46,3 @@ class QueryLog(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
 
     user: Mapped[User | None] = relationship(back_populates="query_logs")
-
